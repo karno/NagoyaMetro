@@ -1,0 +1,289 @@
+﻿<phone:PhoneApplicationPage x:Class="NagoyaMetro.Views.ResultPage"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:NagoyaMetro_ViewModels="clr-namespace:NagoyaMetro.ViewModels"
+                            xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+                            xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+                            xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+                            d:DesignHeight="768"
+                            d:DesignWidth="480"
+                            FontFamily="{StaticResource PhoneFontFamilyNormal}"
+                            FontSize="{StaticResource PhoneFontSizeNormal}"
+                            Foreground="{StaticResource PhoneForegroundBrush}"
+                            Language="ja-JP"
+                            Orientation="Portrait"
+                            shell:SystemTray.IsVisible="True"
+                            SupportedOrientations="Portrait"
+                            mc:Ignorable="d">
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn" />
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn" />
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <!--  別ページへ遷移する時のアニメーション  -->
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut" />
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut" />
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+    <phone:PhoneApplicationPage.Resources>
+        <DataTemplate x:Key="TransportTemplate">
+            <Grid Margin="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="24" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Rectangle Margin="0" Visibility="{Binding IsFirst, Converter={StaticResource BoolInvisibleConverter}}">
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="{StaticResource PhoneDisabledColor}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle Grid.Column="1"
+                           Margin="0"
+                           Visibility="{Binding IsFirst,
+                                                Converter={StaticResource BoolInvisibleConverter}}">
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="{StaticResource PhoneChromeColor}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+                <TextBlock Grid.Column="1"
+                           Margin="8"
+                           VerticalAlignment="Center"
+                           Text="{Binding Origin,
+                                          FallbackValue=Origin}"
+                           TextWrapping="Wrap"
+                           Visibility="{Binding IsFirst,
+                                                Converter={StaticResource BoolInvisibleConverter}}"
+                           d:LayoutOverrides="Height" />
+                <Rectangle Grid.Row="1" Margin="0">
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="{Binding LineColor}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Grid Grid.Row="1"
+                      Grid.Column="1"
+                      Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.ColumnSpan="2"
+                               Margin="8"
+                               VerticalAlignment="Center"
+                               Text="{Binding DepartureTime,
+                                              FallbackValue=DepartureTime}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Grid.Row="1"
+                               Margin="8"
+                               VerticalAlignment="Center"
+                               Text="{Binding LineName,
+                                              FallbackValue=LineName}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Grid.Row="2"
+                               Grid.ColumnSpan="2"
+                               Margin="8"
+                               VerticalAlignment="Center"
+                               Text="{Binding ArrivalTime,
+                                              FallbackValue=ArrivalTime}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="1"
+                               Margin="8"
+                               VerticalAlignment="Center"
+                               Text="{Binding Detail,
+                                              FallbackValue=Detail}"
+                               TextWrapping="Wrap"
+                               d:LayoutOverrides="Height" />
+                </Grid>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="TransportChunkTemplate">
+            <Grid VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="24" />
+                    <ColumnDefinition Width="5*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <Rectangle>
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="{StaticResource PhoneDisabledColor}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle Grid.Column="1"
+                           Grid.ColumnSpan="2"
+                           Margin="0">
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="{StaticResource PhoneChromeColor}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Border Grid.Row="1"
+                        Grid.Column="2"
+                        Margin="0"
+                        BorderThickness="1,1,0,1"
+                        Visibility="{Binding IsLast,
+                                             Converter={StaticResource BoolInvisibleConverter}}">
+                    <Border.BorderBrush>
+                        <SolidColorBrush Color="{StaticResource PhoneBackgroundColor}" />
+                    </Border.BorderBrush>
+                    <Rectangle Margin="0">
+                        <Rectangle.Fill>
+                            <SolidColorBrush Color="{StaticResource PhoneChromeColor}" />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Border>
+                <TextBlock Grid.Column="1"
+                           Margin="8"
+                           VerticalAlignment="Center"
+                           Text="{Binding StationName,
+                                          FallbackValue=StationName}"
+                           TextWrapping="Wrap" />
+                <TextBlock Grid.Row="1"
+                           Grid.Column="2"
+                           Margin="8"
+                           VerticalAlignment="Center"
+                           Text="{Binding CurrentFare,
+                                          FallbackValue=Fare}"
+                           TextWrapping="Wrap"
+                           Visibility="{Binding IsLast,
+                                                Converter={StaticResource BoolInvisibleConverter}}"
+                           d:LayoutOverrides="Width" />
+                <ItemsControl Grid.Row="1"
+                              Grid.ColumnSpan="2"
+                              Margin="0"
+                              ItemsSource="{Binding Transports}"
+                              ItemTemplate="{StaticResource TransportTemplate}"
+                              Visibility="{Binding IsLast,
+                                                   Converter={StaticResource BoolInvisibleConverter}}" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="RouteTemplate">
+            <ScrollViewer>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Border Margin="0"
+                            HorizontalAlignment="Left"
+                            BorderThickness="0,0,0,1">
+                        <Border.BorderBrush>
+                            <SolidColorBrush Color="{StaticResource PhoneBackgroundColor}" />
+                        </Border.BorderBrush>
+                        <Grid Width="456">
+                            <Grid.Background>
+                                <SolidColorBrush Color="{StaticResource PhoneChromeColor}" />
+                            </Grid.Background>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock Margin="8"
+                                       Text="時間"
+                                       TextWrapping="Wrap" />
+                            <TextBlock Grid.Column="1"
+                                       Margin="8"
+                                       Text="{Binding TotalTime}"
+                                       TextWrapping="Wrap" />
+                            <TextBlock Grid.Row="1"
+                                       Margin="8"
+                                       Text="距離"
+                                       TextWrapping="Wrap" />
+                            <TextBlock Grid.Row="1"
+                                       Grid.Column="1"
+                                       Margin="8"
+                                       Text="{Binding Distance}"
+                                       TextWrapping="Wrap" />
+                            <TextBlock Grid.Row="2"
+                                       Margin="8"
+                                       Text="片道料金"
+                                       TextWrapping="Wrap" />
+                            <TextBlock Grid.Row="2"
+                                       Grid.Column="1"
+                                       Margin="8"
+                                       Text="{Binding Fare}"
+                                       TextWrapping="Wrap" />
+                            <TextBlock Grid.Row="3"
+                                       Margin="8"
+                                       Text="乗り換え"
+                                       TextWrapping="Wrap" />
+                            <TextBlock Grid.Row="3"
+                                       Grid.Column="1"
+                                       Margin="8"
+                                       Text="{Binding TransferCount}"
+                                       TextWrapping="Wrap" />
+                        </Grid>
+                    </Border>
+                    <ItemsControl Grid.Row="1"
+                                  Margin="0,0,0,16"
+                                  ItemsSource="{Binding TransportChunks}"
+                                  ItemTemplate="{StaticResource TransportChunkTemplate}" />
+                </Grid>
+            </ScrollViewer>
+        </DataTemplate>
+        <DataTemplate x:Key="HeaderTemplate">
+            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+
+    <!--  ApplicationBar の使用法を示すサンプル コード  -->
+    <!--
+        <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+        <shell:ApplicationBarIconButton x:Name="appbar_button1" IconUri="/Images/appbar_button1.png" Text="Button 1"/>
+        <shell:ApplicationBarIconButton x:Name="appbar_button2" IconUri="/Images/appbar_button2.png" Text="Button 2"/>
+        <shell:ApplicationBar.MenuItems>
+        <shell:ApplicationBarMenuItem x:Name="menuItem1" Text="MenuItem 1"/>
+        <shell:ApplicationBarMenuItem x:Name="menuItem2" Text="MenuItem 2"/>
+        </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+        </phone:PhoneApplicationPage.ApplicationBar>
+    -->
+
+    <phone:PhoneApplicationPage.DataContext>
+        <NagoyaMetro_ViewModels:ResultViewModel />
+    </phone:PhoneApplicationPage.DataContext>
+
+    <!--  LayoutRoot は、すべてのページ コンテンツが配置されるルート グリッドです  -->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <!--  ピボット コントロール  -->
+        <controls:Pivot Title="{Binding SearchInfo,
+                                        Mode=OneWay}"
+                        HeaderTemplate="{StaticResource HeaderTemplate}"
+                        ItemsSource="{Binding Routes,
+                                              Mode=OneWay}"
+                        ItemTemplate="{StaticResource RouteTemplate}" />
+    </Grid>
+
+</phone:PhoneApplicationPage>

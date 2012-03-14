@@ -1,0 +1,73 @@
+﻿<phone:PhoneApplicationPage x:Class="NagoyaMetro.View.MainPage"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+                            xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+                            xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+                            d:DesignHeight="800"
+                            d:DesignWidth="480"
+                            FontFamily="{StaticResource PhoneFontFamilyNormal}"
+                            FontSize="{StaticResource PhoneFontSizeNormal}"
+                            Foreground="{StaticResource PhoneForegroundBrush}"
+                            Language="ja-JP"
+                            Orientation="Portrait"
+                            shell:SystemTray.IsVisible="False"
+                            SupportedOrientations="Portrait"
+							toolkit:TiltEffect.IsTiltEnabled="True"
+                            mc:Ignorable="d">
+	<phone:PhoneApplicationPage.Resources>
+		<ItemsPanelTemplate x:Key="MyRoutesPanel">
+			<toolkit:WrapPanel Orientation="Vertical"/>
+		</ItemsPanelTemplate>
+		<DataTemplate x:Key="MyRouteData">
+			<Grid>
+				<toolkit:HubTile Margin="32"/>
+			</Grid>
+		</DataTemplate>
+	</phone:PhoneApplicationPage.Resources>
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn" />
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn" />
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <!--  別ページへ遷移する時のアニメーション  -->
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut" />
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut" />
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+    <!--  LayoutRoot は、他のすべてのページ コンテンツが配置されるルート グリッドを格納します  -->
+    <Grid x:Name="LayoutRoot">
+        <controls:Panorama Title="NagoyaMetro">
+
+            <!--  パノラマ アイテム 1  -->
+            <controls:PanoramaItem Header="路線を探す">
+                <Grid />
+            </controls:PanoramaItem>
+
+            <!--  パノラマ アイテム 2  -->
+            <controls:PanoramaItem Header="いつもの路線" Orientation="Horizontal">
+                <Grid >
+                	<ItemsControl HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" ItemsPanel="{StaticResource MyRoutesPanel}" ItemTemplate="{StaticResource MyRouteData}" ItemsSource="{Binding MyRoutes}"/>
+                </Grid>
+            </controls:PanoramaItem>
+        </controls:Panorama>
+    </Grid>
+
+    <!--  パノラマ ベースのアプリケーションには ApplicationBar を表示しないでください  -->
+
+</phone:PhoneApplicationPage>

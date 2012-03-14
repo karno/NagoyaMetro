@@ -1,0 +1,259 @@
+﻿<phone:PhoneApplicationPage x:Class="NagoyaMetro.Views.MainPage"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+                            xmlns:s="clr-namespace:Hailprism.Spectrum.Mvvm.Messaging;assembly=Hailprism.Spectrum"
+                            xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+                            xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+                            xmlns:vm="clr-namespace:NagoyaMetro.ViewModels"
+                            d:DesignHeight="800"
+                            d:DesignWidth="480"
+                            FontFamily="{StaticResource PhoneFontFamilyNormal}"
+                            FontSize="{StaticResource PhoneFontSizeNormal}"
+                            Foreground="{StaticResource PhoneForegroundBrush}"
+                            Language="ja-JP"
+                            Orientation="Portrait"
+                            shell:SystemTray.IsVisible="False"
+                            SupportedOrientations="Portrait"
+                            toolkit:TiltEffect.IsTiltEnabled="True"
+                            mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <s:MessageTrigger Messenger="{Binding Messenger}">
+            <s:NavigateMessageAction />
+        </s:MessageTrigger>
+    </i:Interaction.Triggers>
+    <phone:PhoneApplicationPage.Resources>
+        <ItemsPanelTemplate x:Key="MyRoutesPanel">
+            <toolkit:WrapPanel Orientation="Vertical" />
+        </ItemsPanelTemplate>
+        <DataTemplate x:Key="MyRouteData">
+            <Grid>
+                <Button Margin="32"
+                        VerticalAlignment="Top"
+                        Command="{Binding SelectRouteCommand}"
+                        Template="{StaticResource SkeletonButton}"
+                        d:LayoutOverrides="Width">
+                    <toolkit:ContextMenuService.ContextMenu>
+                        <toolkit:ContextMenu Language="ja-JP">
+                            <toolkit:MenuItem Command="{Binding SelectRouteByTimeCommand}" Header="時刻指定して検索" />
+                            <toolkit:MenuItem Command="{Binding RemoveRouteCommand}" Header="ここから削除" />
+                        </toolkit:ContextMenu>
+                    </toolkit:ContextMenuService.ContextMenu>
+                    <Grid Width="173" Height="173">
+                        <Grid.Background>
+                            <SolidColorBrush Color="{StaticResource PhoneAccentColor}" />
+                        </Grid.Background>
+                        <TextBlock Margin="6"
+                                   VerticalAlignment="Top"
+                                   FontFamily="Segoe WP SemiLight"
+                                   FontSize="21.333"
+                                   Text="{Binding SearchType}"
+                                   TextWrapping="Wrap"
+                                   d:LayoutOverrides="Width" />
+                        <TextBlock Margin="6"
+                                   VerticalAlignment="Bottom"
+                                   FontFamily="Segoe WP SemiLight"
+                                   FontSize="32"
+                                   Text="{Binding RouteName}"
+                                   d:LayoutOverrides="Width, Height" />
+                    </Grid>
+                </Button>
+            </Grid>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+    <phone:PhoneApplicationPage.DataContext>
+        <vm:MainViewModel />
+    </phone:PhoneApplicationPage.DataContext>
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn" />
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn" />
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <!--  別ページへ遷移する時のアニメーション  -->
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut" />
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut" />
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+    <!--  LayoutRoot は、他のすべてのページ コンテンツが配置されるルート グリッドを格納します  -->
+    <Grid x:Name="LayoutRoot">
+        <Grid Margin="0,0,0,104"
+              Opacity="0.8"
+              Visibility="{Binding IsFindingRoute,
+                                   Converter={StaticResource BoolVisibleConverter}}">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource PhoneBackgroundColor}" />
+            </Grid.Background>
+            <toolkit:PerformanceProgressBar Margin="0"
+                                            VerticalAlignment="Center"
+                                            IsIndeterminate="True"
+                                            Visibility="{Binding IsFindingRoute,
+                                                                 Converter={StaticResource BoolVisibleConverter}}" />
+        </Grid>
+        <controls:Panorama Title="NagoyaMetro">
+
+            <!--  パノラマ アイテム 1  -->
+            <controls:PanoramaItem Header="路線を探す">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid Margin="16,16,48,16">
+                        <Button Margin="0"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                Background="{x:Null}"
+                                BorderBrush="{x:Null}"
+                                BorderThickness="0"
+                                Foreground="{x:Null}"
+                                Template="{StaticResource SkeletonButton}"
+                                d:LayoutOverrides="GridBox">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding SearchTrainCommand, Mode=OneWay}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Grid Background="#FFFF6900">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Path Width="130"
+                                      Height="140"
+                                      Margin="16"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Data="M 703.833,125.908L 449.723,125.908C 439.062,125.908 430.389,134.581 430.389,145.241L 430.389,399.352C 430.389,410.012 439.062,418.685 449.723,418.685L 468.768,418.685L 468.768,447.426L 485.73,447.426L 485.73,418.685L 667.827,418.685L 667.827,447.426L 684.789,447.426L 684.789,418.685L 703.833,418.685C 714.493,418.685 723.167,410.012 723.167,399.352L 723.167,145.241C 723.167,134.581 714.493,125.908 703.833,125.908 Z M 716.5,145.241L 716.5,170.759L 665.944,170.759L 665.944,132.574L 703.833,132.574C 710.818,132.574 716.5,138.256 716.5,145.241 Z M 437.056,330.315L 437.056,319.204L 716.5,319.204L 716.5,330.315L 437.056,330.315 Z M 716.5,336.982L 716.5,381.426L 437.056,381.426L 437.056,336.982L 716.5,336.982 Z M 494.279,170.759L 494.279,132.574L 659.277,132.574L 659.277,170.759L 494.279,170.759 Z M 511.426,312.537L 511.426,177.426L 573.444,177.426L 573.444,312.537L 511.426,312.537 Z M 504.759,177.426L 504.759,312.537L 437.056,312.537L 437.056,177.426L 504.759,177.426 Z M 580.111,312.537L 580.111,177.426L 716.5,177.426L 716.5,312.537L 580.111,312.537 Z M 449.723,132.574L 487.612,132.574L 487.612,170.759L 437.056,170.759L 437.056,145.241C 437.056,138.256 442.738,132.574 449.723,132.574 Z M 479.064,440.759L 475.435,440.759L 475.435,418.685L 479.064,418.685L 479.064,440.759 Z M 678.122,440.759L 674.493,440.759L 674.493,418.685L 678.122,418.685L 678.122,440.759 Z M 703.833,412.018L 684.789,412.018L 667.827,412.018L 485.73,412.018L 468.768,412.018L 449.723,412.018C 442.738,412.018 437.056,406.336 437.056,399.352L 437.056,388.092L 716.5,388.092L 716.5,399.352C 716.5,406.336 710.818,412.018 703.833,412.018 Z M 499.759,377.536L 499.759,340.947L 454.741,340.947L 454.741,377.536L 499.759,377.536 Z M 461.407,347.613L 493.092,347.613L 493.092,370.87L 461.407,370.87L 461.407,347.613 Z M 698.816,340.947L 653.798,340.947L 653.798,377.536L 698.816,377.536L 698.816,340.947 Z M 692.15,370.87L 660.465,370.87L 660.465,347.613L 692.15,347.613L 692.15,370.87 Z "
+                                      Stretch="Fill"
+                                      UseLayoutRounding="False">
+                                    <Path.Fill>
+                                        <SolidColorBrush Color="{StaticResource PhoneForegroundColor}" />
+                                    </Path.Fill>
+                                </Path>
+                                <TextBlock Grid.Column="1"
+                                           Margin="32,0,0,0"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontSize="29.333"
+                                           TextAlignment="Center"
+                                           TextWrapping="Wrap"
+                                           d:LayoutOverrides="Height">
+                                    <TextBlock.Foreground>
+                                        <SolidColorBrush Color="{StaticResource PhoneForegroundColor}" />
+                                    </TextBlock.Foreground>
+                                    <Run Text="Subway" />
+                                    <LineBreak />
+                                    <Run Text="+" />
+                                    <LineBreak />
+                                    <Run Text="Bus" />
+                                </TextBlock>
+                            </Grid>
+                        </Button>
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="16,16,48,16">
+                        <Button Margin="0"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                Background="{x:Null}"
+                                BorderBrush="{x:Null}"
+                                BorderThickness="0"
+                                Foreground="{x:Null}"
+                                Template="{StaticResource SkeletonButton}"
+                                d:LayoutOverrides="GridBox">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding SearchBusOnlyCommand, Mode=OneWay}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Grid Background="#FF1CA2E4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Path Width="130"
+                                      Height="140"
+                                      Margin="16"
+                                      Data="F1 M 336.444,106.482L 82.3333,106.482C 71.6731,106.482 63,115.155 63,125.815L 63,379.926C 63,390.586 71.6731,399.259 82.3333,399.259L 87.3521,399.259L 87.3521,428L 137.148,428L 137.148,399.259L 281.629,399.259L 281.629,428L 331.425,428L 331.425,399.259L 336.444,399.259C 347.104,399.259 355.777,390.586 355.777,379.926L 355.777,125.815C 355.777,115.155 347.104,106.482 336.444,106.482 Z M 349.111,125.815L 349.111,163.778L 142.815,163.778L 142.815,113.148L 336.444,113.148C 343.428,113.148 349.111,118.831 349.111,125.815 Z M 281.629,344.777L 281.629,356.667L 137.148,356.667L 137.148,344.777L 94.1302,344.777L 94.1302,356.667L 69.6667,356.667L 69.6667,342.148L 349.111,342.148L 349.111,356.667L 324.648,356.667L 324.648,344.777L 281.629,344.777 Z M 317.981,351.444L 317.981,368.667L 288.296,368.667L 288.296,351.444L 317.981,351.444 Z M 130.482,351.444L 130.482,368.667L 100.797,368.667L 100.797,351.444L 130.482,351.444 Z M 69.6667,335.482L 69.6667,320.964L 349.111,320.964L 349.111,335.482L 69.6667,335.482 Z M 69.6667,314.296L 69.6667,299.778L 349.111,299.778L 349.111,314.296L 69.6667,314.296 Z M 206.055,170.445L 206.055,293.111L 163.547,293.111L 193.055,263.603L 193.055,268L 199.722,268L 199.722,194.223L 193.055,194.223L 193.055,254.176L 154.12,293.111L 69.6667,293.111L 69.6667,170.445L 206.055,170.445 Z M 264.657,293.111L 225.722,254.176L 225.722,194.223L 219.055,194.223L 219.055,268L 225.722,268L 225.722,263.603L 255.23,293.111L 212.722,293.111L 212.722,170.445L 349.111,170.445L 349.111,293.111L 264.657,293.111 Z M 82.3333,113.148L 136.148,113.148L 136.148,163.778L 69.6667,163.778L 69.6667,125.815C 69.6667,118.831 75.3489,113.148 82.3333,113.148 Z M 130.482,421.333L 94.0188,421.333L 94.0188,399.259L 130.482,399.259L 130.482,421.333 Z M 324.758,421.333L 288.296,421.333L 288.296,399.259L 324.758,399.259L 324.758,421.333 Z M 336.444,392.592L 331.425,392.592L 281.629,392.592L 137.148,392.592L 87.3521,392.592L 82.3333,392.592C 75.3489,392.592 69.6667,386.91 69.6667,379.926L 69.6667,363.333L 94.1302,363.333L 94.1302,375.333L 137.148,375.333L 137.148,363.333L 281.629,363.333L 281.629,375.333L 324.648,375.333L 324.648,363.333L 349.111,363.333L 349.111,379.926C 349.111,386.91 343.428,392.592 336.444,392.592 Z "
+                                      Stretch="Fill"
+                                      UseLayoutRounding="False">
+                                    <Path.Fill>
+                                        <SolidColorBrush Color="{StaticResource PhoneForegroundColor}" />
+                                    </Path.Fill>
+                                </Path>
+                                <TextBlock Grid.Column="1"
+                                           Margin="32,0,0,0"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           FontSize="29.333"
+                                           Text="Bus only"
+                                           TextAlignment="Center"
+                                           TextWrapping="Wrap"
+                                           d:LayoutOverrides="Height">
+                                    <TextBlock.Foreground>
+                                        <SolidColorBrush Color="{StaticResource PhoneForegroundColor}" />
+                                    </TextBlock.Foreground>
+                                </TextBlock>
+                            </Grid>
+                        </Button>
+                    </Grid>
+                    <TextBlock Grid.Row="2"
+                               Margin="16,0,48,1"
+                               FontSize="16"
+                               Text="検索対象は、名古屋市バス・地下鉄全線、あおなみ線、ゆとりーとラインです。"
+                               TextWrapping="Wrap"
+                               d:LayoutOverrides="Height" />
+                    <HyperlinkButton Grid.Row="3"
+                                     Margin="4,0,0,0"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     Content="このアプリケーションについて"
+                                     FontSize="16"
+                                     NavigateUri="/NagoyaMetro;component/Views/AboutPage.xaml" />
+                </Grid>
+            </controls:PanoramaItem>
+
+            <!--  パノラマ アイテム 2  -->
+            <controls:PanoramaItem Header="よく使う路線" Orientation="Horizontal">
+                <Grid>
+                    <ItemsControl HorizontalAlignment="Left"
+                                  VerticalAlignment="Stretch"
+                                  ItemsPanel="{StaticResource MyRoutesPanel}"
+                                  ItemsSource="{Binding MyRoutes}"
+                                  ItemTemplate="{StaticResource MyRouteData}" />
+                </Grid>
+            </controls:PanoramaItem>
+        </controls:Panorama>
+        <Grid Grid.RowSpan="2"
+              Margin="0"
+              Opacity="0.8"
+              Visibility="{Binding IsFindingRoute,
+                                   Converter={StaticResource BoolVisibleConverter}}">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource PhoneBackgroundColor}" />
+            </Grid.Background>
+            <toolkit:PerformanceProgressBar Margin="0"
+                                            VerticalAlignment="Center"
+                                            IsIndeterminate="True" />
+        </Grid>
+    </Grid>
+
+    <!--  パノラマ ベースのアプリケーションには ApplicationBar を表示しないでください  -->
+
+</phone:PhoneApplicationPage>
