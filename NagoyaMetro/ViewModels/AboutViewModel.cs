@@ -1,7 +1,7 @@
-﻿using System.Reflection;
-using Hailprism.Spectrum.Mvvm;
+﻿using System;
+using System.Reflection;
+using Hailstone.Mvvm;
 using Microsoft.Phone.Tasks;
-using System;
 
 namespace NagoyaMetro.ViewModels
 {
@@ -16,7 +16,6 @@ namespace NagoyaMetro.ViewModels
                 return version.Major + "." + version.Minor;
             }
         }
-
 
         #region ShowOfficialWebCommand
         private GalaSoft.MvvmLight.Command.RelayCommand _ShowOfficialWebCommand;
@@ -40,7 +39,5 @@ namespace NagoyaMetro.ViewModels
             webtask.Show();
         }
         #endregion
-
-
     }
 }

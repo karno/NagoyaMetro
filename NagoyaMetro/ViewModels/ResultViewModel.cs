@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
-using Hailprism.Spectrum.Linq;
-using Hailprism.Spectrum.Mvvm;
+using Hailstone.Linq;
+using Hailstone.Mvvm;
 using NagoyaMetro.Models;
 using NagoyaMetro.Models.Routing;
 

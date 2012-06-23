@@ -5,7 +5,7 @@
              xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-xmlns:conv="clr-namespace:Hailprism.Spectrum.Mvvm.Converters;assembly=Hailprism.Spectrum"
+xmlns:conv="clr-namespace:Hailstone.Mvvm.Converters;assembly=Hailstone"
              mc:Ignorable="d">
 
     <Application.Resources>

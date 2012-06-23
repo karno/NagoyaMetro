@@ -1,7 +1,7 @@
 ﻿using System;
-using Hailprism.Spectrum.Linq;
-using Hailprism.Spectrum.Mvvm;
-using Hailprism.Spectrum.Mvvm.Messaging.Messages;
+using Hailstone.Linq;
+using Hailstone.Mvvm;
+using Hailstone.Mvvm.Messaging.Messages;
 using Microsoft.Phone.Reactive;
 using NagoyaMetro.Models;
 using NagoyaMetro.Models.Routing;

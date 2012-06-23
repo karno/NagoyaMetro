@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Hailprism.Spectrum.Linq;
-using Hailprism.Spectrum.Mvvm;
-using Hailprism.Spectrum.Mvvm.Messaging.Messages;
+using Hailstone.Linq;
+using Hailstone.Mvvm;
+using Hailstone.Mvvm.Messaging.Messages;
 using Microsoft.Phone.Reactive;
 using NagoyaMetro.Models;
 
@@ -22,11 +22,17 @@ namespace NagoyaMetro.ViewModels
 
         public SelectStationViewModel()
         {
-            InitializeObservable();
-            Setting.StationSearchResult = null;
-            this._isOnlyForStation = Setting.StationSearchEditChannel == EditChannel.Via;
-            this.inforeader = new StationInfoReader();
-            RefreshStationsInfo();
+            if (ViewModel.IsInDesignModeStatic)
+            {
+            }
+            else
+            {
+                InitializeObservable();
+                Setting.StationSearchResult = null;
+                this._isOnlyForStation = Setting.StationSearchEditChannel == EditChannel.Via;
+                this.inforeader = new StationInfoReader();
+                RefreshStationsInfo();
+            }
         }
 
         private bool _isExistsMoreStationsAndBusStops = false;

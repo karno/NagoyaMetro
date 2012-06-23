@@ -256,6 +256,11 @@
             <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
+	<phone:PhoneApplicationPage.ApplicationBar>
+		<shell:ApplicationBar>
+			<shell:ApplicationBarIconButton IconUri="/icons/appbar.edit.rest.png" Text="ツイート" Click="TweetButton_Click"/>
+		</shell:ApplicationBar>
+	</phone:PhoneApplicationPage.ApplicationBar>
 
     <!--  ApplicationBar の使用法を示すサンプル コード  -->
     <!--

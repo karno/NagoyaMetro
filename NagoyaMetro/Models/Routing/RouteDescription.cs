@@ -1,4 +1,4 @@
-﻿using Hailprism.Spectrum.Linq;
+﻿using Hailstone.Linq;
 
 namespace NagoyaMetro.Models.Routing
 {
@@ -27,11 +27,6 @@ namespace NagoyaMetro.Models.Routing
         /// </summary>
         public bool IsSearchOnlyBus { get; set; }
 
-        /// <summary>
-        /// ルートの使用回数
-        /// </summary>
-        public int RouteCount { get; set; }
-
         public override bool Equals(object obj)
         {
             var rd = obj as RouteDescription;
@@ -56,7 +51,6 @@ namespace NagoyaMetro.Models.Routing
                 Destination = this.Destination,
                 Via = this.Via,
                 IsSearchOnlyBus = this.IsSearchOnlyBus,
-                RouteCount = this.RouteCount,
             };
         }
     }

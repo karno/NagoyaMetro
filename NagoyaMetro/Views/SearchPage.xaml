@@ -6,7 +6,7 @@
                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                             xmlns:NagoyaMetro_ViewModels="clr-namespace:NagoyaMetro.ViewModels"
                             xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
-                            xmlns:s="clr-namespace:Hailprism.Spectrum.Mvvm.Messaging;assembly=Hailprism.Spectrum"
+                            xmlns:s="clr-namespace:Hailstone.Mvvm.Messaging;assembly=Hailstone"
                             xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
                             xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
                             d:DesignHeight="768"

@@ -7,8 +7,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
 using Dulcet.Util;
-using Hailprism.Spectrum.Linq;
-using Hailprism.Spectrum.Reactive;
+using Hailstone.Linq;
+using Hailstone.Reactive;
 using Japanese.Text.Encoding;
 using Microsoft.Phone.Reactive;
 

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO.IsolatedStorage;
 using System.Linq;
-using Hailprism.Spectrum.Linq;
-using Hailprism.Spectrum.Mvvm;
+using Hailstone.Mvvm;
 using NagoyaMetro.Models.Routing;
+using Hailstone.Linq;
 
 namespace NagoyaMetro.Models
 {
@@ -132,33 +132,12 @@ namespace NagoyaMetro.Models
             }
         }
 
-        const int MyRouteIncrementValue = 3;
-        const int MyRouteMaxValue = 20;
-
         public static void UpdateMyRoutes(RouteDescription desc)
         {
+            // freeze reference
             desc = desc.FreezeClone();
-            IEnumerable<RouteDescription> routes = MyRoutes.ToArray();
-            var pd = routes.Where(rd => rd.Equals(desc)).FirstOrDefault();
-            if (pd != null)
-            {
-                pd.RouteCount += MyRouteIncrementValue + 1; // it will decrement later.
-                if (pd.RouteCount > MyRouteMaxValue) // assert largest boundary
-                    pd.RouteCount = MyRouteMaxValue;
-            }
-            else
-            {
-                desc.RouteCount = MyRouteIncrementValue + 1;
-                routes = routes.Append(desc);
-            }
-            // decrement value
-            routes.ForEach(r => r.RouteCount--);
-            // re-ordering
-            routes = routes
-                .Where(o => o.RouteCount > 0)
-                .OrderByDescending(o => o.RouteCount);
-            // set result
-            MyRoutes = routes;
+            // update routes description (LRU-update)
+            MyRoutes = new[] { desc }.Concat(MyRoutes.Where(rd => !rd.Equals(desc)));
         }
     }
 
