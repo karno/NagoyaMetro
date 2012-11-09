@@ -9,8 +9,8 @@ using System.Windows.Media;
 using Dulcet.Util;
 using Hailstone.Linq;
 using Hailstone.Reactive;
-using Japanese.Text.Encoding;
 using Microsoft.Phone.Reactive;
+using Net.Tauchi.Text;
 
 namespace NagoyaMetro.Models.Routing
 {

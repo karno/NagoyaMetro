@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A5D6EE1B-98CC-4AB3-84FA-AEFC48EE5290}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Hailstone</RootNamespace>
+    <AssemblyName>Hailstone</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GalaSoft.MvvmLight.Extras.WP71, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="GalaSoft.MvvmLight.WP71, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Expression.Interactions, Version=3.8.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Phone" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit">
+      <HintPath>..\packages\Coding4Fun.Phone.Controls.Complete.1.5.1\lib\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Phone.Interop" />
+    <Reference Include="Microsoft.Phone.Reactive" />
+    <Reference Include="System.Observable" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Interactivity, Version=3.8.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="mscorlib.extensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Linq\EnumerableEx.cs" />
+    <Compile Include="Linq\Tuples.cs" />
+    <Compile Include="Mvvm\Behaviors\UpdatePasswordBindingOnPropertyChangedBehavior.cs" />
+    <Compile Include="Mvvm\Behaviors\UpdateTextBindingOnPropertyChangedBehavior.cs" />
+    <Compile Include="Mvvm\Converters\BooleanToVisibleConverter.cs" />
+    <Compile Include="Mvvm\Converters\CollectionExistsToVisibleConverter.cs" />
+    <Compile Include="Mvvm\Converters\ConverterBase.cs" />
+    <Compile Include="Mvvm\Converters\DateTimeToStringConverter.cs" />
+    <Compile Include="Mvvm\Converters\NumberToVisibleConverter.cs" />
+    <Compile Include="Mvvm\Converters\StringEqVisibleConverter.cs" />
+    <Compile Include="Mvvm\Messaging\GoToStateMessageAction.cs" />
+    <Compile Include="Mvvm\Messaging\MessageBoxMessageAction.cs" />
+    <Compile Include="Mvvm\Messaging\MessageGift.cs" />
+    <Compile Include="Mvvm\Messaging\Messages\EmptyMessage.cs" />
+    <Compile Include="Mvvm\Messaging\Messages\GoToStateMessage.cs" />
+    <Compile Include="Mvvm\Messaging\Messages\MessageBoxMessage.cs" />
+    <Compile Include="Mvvm\Messaging\Message.cs" />
+    <Compile Include="Mvvm\Messaging\Messages\NavigationContextMessage.cs" />
+    <Compile Include="Mvvm\Messaging\Messages\TextBoxSetCaretMessage.cs" />
+    <Compile Include="Mvvm\Messaging\MessageTrigger.cs" />
+    <Compile Include="Mvvm\Messaging\Messages\NavigateMessage.cs" />
+    <Compile Include="Mvvm\Messaging\NavigateMessageAction.cs" />
+    <Compile Include="Mvvm\Messaging\MessageActionBase.cs" />
+    <Compile Include="Mvvm\Messaging\NavigationContextMessageAction.cs" />
+    <Compile Include="Mvvm\Messaging\ShowContextMenuAction.cs" />
+    <Compile Include="Mvvm\Messaging\TextBoxSetCaretAction.cs" />
+    <Compile Include="Mvvm\ViewModel.cs" />
+    <Compile Include="Reactive\AsynchronousExtensions.cs" />
+    <Compile Include="Reactive\ObservableEx.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\BinarySerialization.cs" />
+    <Compile Include="Serialization\IBinarySerializable.cs" />
+    <Compile Include="Toolkit\LocalizedContextMenu.cs" />
+    <Compile Include="Toolkit\LongListSelectorGroup.cs" />
+    <Compile Include="Toolkit\TurnstileTransition.cs" />
+    <Compile Include="Util\DependencyPropertyListener.cs" />
+    <Compile Include="Util\NullReferenceHelper.cs" />
+    <Compile Include="Util\ShellTileExtension.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Hailstone.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

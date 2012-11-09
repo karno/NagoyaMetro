@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NagoyaMetro", "NagoyaMetro\NagoyaMetro.csproj", "{F7E40827-2184-4918-B693-B35B61AE33FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hailstone", "..\Agalmatophilia\Hailstone\Hailstone.csproj", "{A5D6EE1B-98CC-4AB3-84FA-AEFC48EE5290}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hailstone", "Hailstone\Hailstone.csproj", "{A5D6EE1B-98CC-4AB3-84FA-AEFC48EE5290}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
